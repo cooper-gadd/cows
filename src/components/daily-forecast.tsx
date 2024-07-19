@@ -127,9 +127,7 @@ export async function DailyForecast() {
                         : dailyForecast.daypart[0]!.daypartName[i * 2]}
                     </p>
                     <p className="hidden text-sm text-muted-foreground md:block">
-                      {dailyForecast.daypart[0]!.narrative[i] === null
-                        ? dailyForecast.daypart[0]!.narrative[i + 1]
-                        : dailyForecast.daypart[0]!.narrative[i * 2]}
+                      {dailyForecast.narrative[i]}
                     </p>
                   </div>
                   <div className="ml-auto flex flex-row font-medium">
