@@ -22,9 +22,7 @@ export async function getHistorical({ date }: { date: Date }) {
   const year = date.getFullYear();
   const month = (date.getMonth() + 1).toString().padStart(2, "0");
   const day = date.getDate().toString().padStart(2, "0");
-
   const formattedDate = `${year}${month}${day}`;
-  console.log(formattedDate);
 
   const res = await fetch(
     `https://api.weather.com/v2/pws/history/hourly?stationId=KNYCOWLE10&format=json&units=e&date=${formattedDate}&apiKey=${env.API_KEY}`,

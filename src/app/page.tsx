@@ -3,7 +3,7 @@ import { DailyForecast } from "@/components/daily-forecast";
 import { Historical } from "@/components/historical";
 import { Moo } from "@/components/moo";
 
-export default function HomePage() {
+export default async function HomePage() {
   return (
     <main className="flex-1 space-y-4 p-8 pt-6">
       <div className="flex items-center justify-between space-y-2">
