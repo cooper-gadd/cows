@@ -1,60 +1,80 @@
 "use client";
 
 import { type Historical } from "@/lib/types";
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
+import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
+import {
+  type ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
 
 export function HistoricalChart({ data }: { data: Historical }) {
+  const now = new Date();
+  const twentyFourHoursAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+
   const chartData =
     data?.observations
       .map((observation) => {
         const obsDate = new Date(observation.obsTimeLocal);
-        const today =
-          obsDate.getDate() === new Date().getDate() &&
-          obsDate.getMonth() === new Date().getMonth() &&
-          obsDate.getFullYear() === new Date().getFullYear();
-        return today
+        return obsDate >= twentyFourHoursAgo
           ? {
               obsTimeLocal: obsDate.toLocaleString("en-US", {
                 hour: "numeric",
                 hour12: true,
               }),
-              tempHigh: observation.imperial.tempHigh,
-              tempLow: observation.imperial.tempLow,
+              tempAvg: observation.imperial.tempAvg,
             }
           : null;
       })
       .filter((entry) => entry !== null) || [];
 
+  const chartConfig = {
+    tempAvg: {
+      label: "Temperature",
+      color: "hsl(var(--chart-2))",
+    },
+  } satisfies ChartConfig;
+
   return (
-    <ResponsiveContainer width="100%" height={350}>
-      <BarChart data={chartData}>
+    <ChartContainer config={chartConfig}>
+      <AreaChart accessibilityLayer data={chartData}>
+        <CartesianGrid vertical={false} />
         <XAxis
           dataKey="obsTimeLocal"
-          stroke="#888888"
-          fontSize={12}
           tickLine={false}
           axisLine={false}
+          tickMargin={8}
+          tickFormatter={(value: string) =>
+            `${value.includes("6") || value.includes("12") ? value : ""}`
+          }
         />
-        <YAxis
-          stroke="#888888"
-          fontSize={12}
-          tickLine={false}
-          axisLine={false}
-          tickFormatter={(value) => `${value}°`}
+        <ChartTooltip
+          cursor={false}
+          content={<ChartTooltipContent indicator="line" />}
         />
-        <Bar
-          dataKey="tempHigh"
-          fill="currentColor"
-          radius={[4, 4, 0, 0]}
-          className="fill-primary"
+        <defs>
+          <linearGradient id="fillTempAvg" x1="0" y1="0" x2="0" y2="1">
+            <stop
+              offset="5%"
+              stopColor="var(--color-tempAvg)"
+              stopOpacity={0.8}
+            />
+            <stop
+              offset="95%"
+              stopColor="var(--color-tempAvg)"
+              stopOpacity={0.1}
+            />
+          </linearGradient>
+        </defs>
+        <Area
+          dataKey="tempAvg"
+          type="natural"
+          fill="url(#fillTempAvg)"
+          fillOpacity={0.4}
+          stroke="var(--color-tempAvg)"
         />
-        <Bar
-          dataKey="tempLow"
-          fill="currentColor"
-          radius={[4, 4, 0, 0]}
-          className="fill-primary"
-        />
-      </BarChart>
-    </ResponsiveContainer>
+      </AreaChart>
+    </ChartContainer>
   );
 }
