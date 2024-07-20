@@ -5,13 +5,25 @@ import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 
 export function HistoricalChart({ data }: { data: Historical }) {
   const chartData =
-    data?.observations.map((observation) => {
-      return {
-        obsTimeLocal: new Date(observation.obsTimeLocal).getDate(),
-        tempHigh: observation.imperial.tempHigh,
-        tempLow: observation.imperial.tempLow,
-      };
-    }) || [];
+    data?.observations
+      .map((observation) => {
+        const obsDate = new Date(observation.obsTimeLocal);
+        const today =
+          obsDate.getDate() === new Date().getDate() &&
+          obsDate.getMonth() === new Date().getMonth() &&
+          obsDate.getFullYear() === new Date().getFullYear();
+        return today
+          ? {
+              obsTimeLocal: obsDate.toLocaleString("en-US", {
+                hour: "numeric",
+                hour12: true,
+              }),
+              tempHigh: observation.imperial.tempHigh,
+              tempLow: observation.imperial.tempLow,
+            }
+          : null;
+      })
+      .filter((entry) => entry !== null) || [];
 
   return (
     <ResponsiveContainer width="100%" height={350}>

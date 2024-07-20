@@ -102,7 +102,7 @@ export async function DailyForecast() {
   return (
     <Card className="col-span-1 md:col-span-3">
       <CardHeader>
-        <CardTitle>Daily Forecast</CardTitle>
+        <CardTitle>Forecast</CardTitle>
         <CardDescription>See into the future.</CardDescription>
       </CardHeader>
       <CardContent>

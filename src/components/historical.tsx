@@ -14,7 +14,7 @@ export async function Historical() {
   return (
     <Card className="col-span-1 md:col-span-4">
       <CardHeader>
-        <CardTitle>Previous Week</CardTitle>
+        <CardTitle>Backcast</CardTitle>
         <CardDescription>See into the past.</CardDescription>
       </CardHeader>
       <CardContent className="pl-2">
