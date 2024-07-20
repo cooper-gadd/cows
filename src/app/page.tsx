@@ -1,8 +1,9 @@
 import { CurrentConditions } from "@/components/current-conditions";
 import { DailyForecast } from "@/components/daily-forecast";
+import { Historical } from "@/components/historical";
 import { Moo } from "@/components/moo";
 
-export default async function HomePage() {
+export default function HomePage() {
   return (
     <main className="flex-1 space-y-4 p-8 pt-6">
       <div className="flex items-center justify-between space-y-2">
@@ -12,7 +13,8 @@ export default async function HomePage() {
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-6">
         <CurrentConditions />
       </div>
-      <div>
+      <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-7">
+        <Historical />
         <DailyForecast />
       </div>
     </main>

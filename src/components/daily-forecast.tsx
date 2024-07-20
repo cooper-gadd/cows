@@ -1,12 +1,5 @@
 import { getDailyForecast } from "@/lib/data";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "./ui/card";
-import {
   Tornado,
   CloudLightning,
   CloudSnow,
@@ -24,6 +17,13 @@ import {
   CloudOff,
   CloudMoonRain,
 } from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 function getIcon({ code }: { code: number }) {
   switch (code) {
@@ -100,49 +100,45 @@ export async function DailyForecast() {
   const dailyForecast = await getDailyForecast();
 
   return (
-    <>
-      <Card className="col-span-3">
-        <CardHeader>
-          <CardTitle>Daily Forecast</CardTitle>
-          <CardDescription>See into the future.</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-8">
-            <>
-              {Array.from({ length: 6 }, (_, i) => (
-                <div key={i} className="flex items-center">
-                  <div className="h-9 w-9">
-                    {dailyForecast.daypart[0]!.iconCode[i] === null
-                      ? getIcon({
-                          code: dailyForecast.daypart[0]!.iconCode[i + 1]!,
-                        })
-                      : getIcon({
-                          code: dailyForecast.daypart[0]!.iconCode[i * 2]!,
-                        })}
-                  </div>
-                  <div className="ml-4 space-y-1">
-                    <p className="text-sm font-medium leading-none">
-                      {dailyForecast.daypart[0]!.daypartName[i] === null
-                        ? dailyForecast.daypart[0]!.daypartName[i + 1]
-                        : dailyForecast.daypart[0]!.daypartName[i * 2]}
-                    </p>
-                    <p className="hidden text-sm text-muted-foreground md:block">
-                      {dailyForecast.narrative[i]}
-                    </p>
-                  </div>
-                  <div className="ml-auto flex flex-row font-medium">
-                    <p className="text-muted-foreground">
-                      {dailyForecast.calendarDayTemperatureMin[i]}°
-                    </p>
-                    <span className="mx-1 text-muted-foreground">/</span>
-                    <p>{dailyForecast.calendarDayTemperatureMax[i]}°</p>
-                  </div>
-                </div>
-              ))}
-            </>
-          </div>
-        </CardContent>
-      </Card>
-    </>
+    <Card className="col-span-1 md:col-span-3">
+      <CardHeader>
+        <CardTitle>Daily Forecast</CardTitle>
+        <CardDescription>See into the future.</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-8">
+          {Array.from({ length: 6 }, (_, i) => (
+            <div key={i} className="flex items-center">
+              <div className="h-9 w-9">
+                {dailyForecast.daypart[0]!.iconCode[i] === null
+                  ? getIcon({
+                      code: dailyForecast.daypart[0]!.iconCode[i + 1]!,
+                    })
+                  : getIcon({
+                      code: dailyForecast.daypart[0]!.iconCode[i * 2]!,
+                    })}
+              </div>
+              <div className="ml-4 space-y-1">
+                <p className="text-sm font-medium leading-none">
+                  {dailyForecast.daypart[0]!.daypartName[i] === null
+                    ? dailyForecast.daypart[0]!.daypartName[i + 1]
+                    : dailyForecast.daypart[0]!.daypartName[i * 2]}
+                </p>
+                <p className="hidden text-sm text-muted-foreground md:block">
+                  {dailyForecast.narrative[i]}
+                </p>
+              </div>
+              <div className="ml-auto flex flex-row font-medium">
+                <p className="text-muted-foreground">
+                  {dailyForecast.calendarDayTemperatureMin[i]}°
+                </p>
+                <span className="mx-1 text-muted-foreground">/</span>
+                <p>{dailyForecast.calendarDayTemperatureMax[i]}°</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </CardContent>
+    </Card>
   );
 }
