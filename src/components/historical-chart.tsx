@@ -3,30 +3,11 @@
 import { type Historical } from "@/lib/types";
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 
-function formatObservationTime(obsTimeLocal: string) {
-  const date = new Date(obsTimeLocal);
-  const hours = date.getHours();
-  const minutes = date.getMinutes();
-
-  if (minutes >= 30) {
-    date.setHours(hours + 1);
-  }
-
-  date.setMinutes(0);
-  date.setSeconds(0);
-  date.setMilliseconds(0);
-
-  return date.toLocaleString("en-US", { hour: "numeric", hour12: true });
-}
-
 export function HistoricalChart({ data }: { data: Historical }) {
   const chartData =
-    data?.observations.map((observation, index, arr) => {
-      const isLast = index === arr.length - 1;
+    data?.observations.map((observation) => {
       return {
-        obsTimeLocal: isLast
-          ? "Now"
-          : formatObservationTime(observation.obsTimeLocal),
+        obsTimeLocal: new Date(observation.obsTimeLocal).getDate(),
         tempHigh: observation.imperial.tempHigh,
         tempLow: observation.imperial.tempLow,
       };

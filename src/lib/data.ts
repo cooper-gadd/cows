@@ -19,14 +19,8 @@ export async function getDailyForecast() {
 }
 
 export async function getHistorical() {
-  const date = new Date();
-  const year = date.getFullYear();
-  const month = (date.getMonth() + 1).toString().padStart(2, "0");
-  const day = date.getDate().toString().padStart(2, "0");
-  const formattedDate = `${year}${month}${day}`;
-
   const res = await fetch(
-    `https://api.weather.com/v2/pws/history/hourly?stationId=KNYCOWLE10&format=json&units=e&date=${formattedDate}&apiKey=${env.API_KEY}`,
+    `https://api.weather.com/v2/pws/observations/hourly/7day?stationId=KNYCOWLE10&format=json&units=e&apiKey=${env.API_KEY}`,
     { cache: "no-store" },
   );
   return res.json() as Promise<Historical>;
