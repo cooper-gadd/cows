@@ -18,7 +18,8 @@ export async function getDailyForecast() {
   return res.json() as Promise<DailyForecast>;
 }
 
-export async function getHistorical({ date }: { date: Date }) {
+export async function getHistorical() {
+  const date = new Date();
   const year = date.getFullYear();
   const month = (date.getMonth() + 1).toString().padStart(2, "0");
   const day = date.getDate().toString().padStart(2, "0");

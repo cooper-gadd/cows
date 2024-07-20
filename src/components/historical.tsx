@@ -3,8 +3,7 @@ import { HistoricalChart } from "./historical-chart";
 import { getHistorical } from "@/lib/data";
 
 export async function Historical() {
-  const today = new Date();
-  const historical = await getHistorical({ date: today });
+  const historical = await getHistorical();
 
   return (
     <Card className="col-span-1 md:col-span-4">
