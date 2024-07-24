@@ -10,24 +10,16 @@ import {
 } from "@/components/ui/chart";
 
 export function HistoricalChart({ data }: { data: Historical }) {
-  const now = new Date();
-  const twentyFourHoursAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
-
-  const chartData =
-    data?.observations
-      .map((observation) => {
-        const obsDate = new Date(observation.obsTimeLocal);
-        return obsDate >= twentyFourHoursAgo
-          ? {
-              obsTimeLocal: obsDate.toLocaleString("en-US", {
-                hour: "numeric",
-                hour12: true,
-              }),
-              tempAvg: observation.imperial.tempAvg,
-            }
-          : null;
-      })
-      .filter((entry) => entry !== null) || [];
+  const chartData = data.observations.map((observation) => {
+    const obsDate = new Date(observation.obsTimeLocal);
+    return {
+      obsTimeLocal: obsDate.toLocaleDateString("en-US", {
+        hour: "numeric",
+        hour12: true,
+      }),
+      tempAvg: observation.imperial.tempAvg,
+    };
+  });
 
   const chartConfig = {
     tempAvg: {
@@ -45,9 +37,7 @@ export function HistoricalChart({ data }: { data: Historical }) {
           tickLine={false}
           axisLine={false}
           tickMargin={8}
-          tickFormatter={(value: string) =>
-            `${value.includes("6") || value.includes("12") ? value : ""}`
-          }
+          tickFormatter={(value: string) => value.replace(value, "")}
         />
         <ChartTooltip
           cursor={false}

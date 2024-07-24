@@ -107,36 +107,42 @@ export async function DailyForecast() {
       </CardHeader>
       <CardContent>
         <div className="space-y-8">
-          {Array.from({ length: 6 }, (_, i) => (
-            <div key={i} className="flex items-center">
-              <div className="h-9 w-9">
-                {dailyForecast.daypart[0]!.iconCode[i] === null
-                  ? getIcon({
-                      code: dailyForecast.daypart[0]!.iconCode[i + 1]!,
-                    })
-                  : getIcon({
-                      code: dailyForecast.daypart[0]!.iconCode[i * 2]!,
-                    })}
+          {Array.from({ length: 6 }, (_, i) => {
+            const icon =
+              dailyForecast.daypart[0]!.iconCode[i] === null
+                ? getIcon({
+                    code: dailyForecast.daypart[0]!.iconCode[i + 1]!,
+                  })
+                : getIcon({
+                    code: dailyForecast.daypart[0]!.iconCode[i * 2]!,
+                  });
+
+            const day =
+              dailyForecast.daypart[0]!.daypartName[i] === null
+                ? dailyForecast.daypart[0]!.daypartName[i + 1]
+                : dailyForecast.daypart[0]!.daypartName[i * 2];
+
+            const narrative = dailyForecast.narrative[i]!.split(".")[0] + ".";
+            const lowTemp = dailyForecast.calendarDayTemperatureMin[i];
+            const highTemp = dailyForecast.calendarDayTemperatureMax[i];
+
+            return (
+              <div key={i} className="flex items-center">
+                <div className="h-9 w-9">{icon}</div>
+                <div className="ml-4 space-y-1">
+                  <p className="text-sm font-medium leading-none">{day}</p>
+                  <p className="hidden text-sm text-muted-foreground md:block">
+                    {narrative}
+                  </p>
+                </div>
+                <div className="ml-auto flex flex-row font-medium">
+                  <p className="text-muted-foreground">{lowTemp}°</p>
+                  <span className="mx-1 text-muted-foreground">/</span>
+                  <p>{highTemp}°</p>
+                </div>
               </div>
-              <div className="ml-4 space-y-1">
-                <p className="text-sm font-medium leading-none">
-                  {dailyForecast.daypart[0]!.daypartName[i] === null
-                    ? dailyForecast.daypart[0]!.daypartName[i + 1]
-                    : dailyForecast.daypart[0]!.daypartName[i * 2]}
-                </p>
-                <p className="hidden text-sm text-muted-foreground md:block">
-                  {dailyForecast.narrative[i]}
-                </p>
-              </div>
-              <div className="ml-auto flex flex-row font-medium">
-                <p className="text-muted-foreground">
-                  {dailyForecast.calendarDayTemperatureMin[i]}°
-                </p>
-                <span className="mx-1 text-muted-foreground">/</span>
-                <p>{dailyForecast.calendarDayTemperatureMax[i]}°</p>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </CardContent>
     </Card>
