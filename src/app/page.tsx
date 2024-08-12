@@ -1,6 +1,7 @@
 import { CurrentConditions } from "@/components/current-conditions";
 import { DailyForecast } from "@/components/daily-forecast";
 import { Moo } from "@/components/moo";
+import { Precipitation } from "@/components/precipitation";
 import { Temperature } from "@/components/temperature";
 
 export default async function HomePage() {
@@ -15,7 +16,10 @@ export default async function HomePage() {
       </div>
       <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-7">
         <div className="col-span-1 md:col-span-4">
-          <Temperature />
+          <div className="grid gap-4 md:grid-cols-2">
+            <Temperature />
+            <Precipitation />
+          </div>
         </div>
         <DailyForecast />
       </div>
