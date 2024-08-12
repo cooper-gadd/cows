@@ -122,7 +122,7 @@ export async function DailyForecast() {
                 ? dailyForecast.daypart[0]!.daypartName[i + 1]
                 : dailyForecast.daypart[0]!.daypartName[i * 2];
 
-            const narrative = dailyForecast.narrative[i]!.split(".")[0] + ".";
+            const narrative = dailyForecast.narrative[i];
             const lowTemp = dailyForecast.calendarDayTemperatureMin[i];
             const highTemp = dailyForecast.calendarDayTemperatureMax[i];
 

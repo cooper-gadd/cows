@@ -3,6 +3,7 @@ import { DailyForecast } from "@/components/daily-forecast";
 import { Moo } from "@/components/moo";
 import { Precipitation } from "@/components/precipitation";
 import { Temperature } from "@/components/temperature";
+import { Wind } from "@/components/wind";
 
 export default async function HomePage() {
   return (
@@ -14,14 +15,11 @@ export default async function HomePage() {
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-6">
         <CurrentConditions />
       </div>
-      <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-7">
-        <div className="col-span-1 md:col-span-4">
-          <div className="grid gap-4 md:grid-cols-2">
-            <Temperature />
-            <Precipitation />
-          </div>
-        </div>
-        <DailyForecast />
+      <DailyForecast />
+      <div className="grid gap-4 md:grid-cols-3">
+        <Temperature />
+        <Precipitation />
+        <Wind />
       </div>
     </main>
   );
